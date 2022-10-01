@@ -14,7 +14,6 @@ const S = {
 export const SponsorElement = (data) => {
 
     const sponsorLogo = "sponsors/logo_" + data.value + ".png";
-    console.log(sponsorLogo);
 
     return (
         <>

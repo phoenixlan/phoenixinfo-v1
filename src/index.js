@@ -4,6 +4,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { init } from '@phoenixlan/phoenix.js';
+export const BASE_URL = process.env.REACT_APP_API_URL??"https://api.phoenixlan.no";
+
+const initialize = () => {
+  init(BASE_URL); //init(process.env.BASE_URL);
+};
+
+initialize()
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

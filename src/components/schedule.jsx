@@ -6,18 +6,25 @@ const S = {
         display: flex;
     `,
     Time: styled.div`
+        display: flex;
+        flex-flow: column;
         color: #a455df;
         font-size: 1.25em;
+        min-width: 3.5em;
         font-weight: 500;
         letter-spacing: .1em;
         flex: 0;
-        margin-top: .4em;
+        margin-top: .1em;
     `,
+        Day: styled.span`
+            font-size: 0.65em;
+        `,
     LineElement: styled.div`
         margin-left: 1em;
         display: flex;
         flex-flow: column;
         height: 100%;
+        flex: 0;
     `,
         TopLine: styled.div`
             position: relative;
@@ -46,7 +53,8 @@ const S = {
         display: flex;
         flex-flow: column;
         margin-left: 2em;
-        margin-top: .4em;
+        margin-top: .45em;
+        flex: 1 10000em;
         
         letter-spacing: .1em;
     `,
@@ -65,27 +73,35 @@ const S = {
         `,
 }
 
-export const Schedule = (data) => {
-
+export const Schedule = ({ agenda }) => {
     return (
         <>
-            <S.ScheduleElementContainer>
-                <S.Time>
-                    10:00
-                </S.Time>
-                <S.LineElement>
-                    <S.TopLine />
-                    <S.Square />
-                    <S.BottomLine />
-                </S.LineElement>
-                <S.ElementInformation>
-                    <S.Title>Test</S.Title>
-                    <S.Subtitle>Litt mindre test men runde 3</S.Subtitle>
-                    <S.Text>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </S.Text>
-                </S.ElementInformation>
-            </S.ScheduleElementContainer>
+            {
+                agenda.map((element) => {
+                    return(
+                        <S.ScheduleElementContainer>
+                            <S.Time>
+                                <S.Day>{new Date(element.time*1000).toLocaleString('default', {weekday: 'short'})}</S.Day>
+                                {new Date(element.time*1000).toLocaleString('default', {hour: '2-digit', minute: '2-digit'})}
+                            </S.Time>
+                            <S.LineElement>
+                                <S.TopLine />
+                                <S.Square />
+                                <S.BottomLine />
+                            </S.LineElement>
+                            <S.ElementInformation>
+                                <S.Title>{element.title}</S.Title>
+                                {/*<S.Subtitle>Subtitle ex. Runde 1 av 3</S.Subtitle>*/}
+                                <S.Text>
+                                    {element.description}
+                                </S.Text>
+                            </S.ElementInformation>
+                        </S.ScheduleElementContainer>
+                    )
+                })
+            
+            
+            }
         </>
     )
 }
