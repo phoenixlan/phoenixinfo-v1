@@ -73,11 +73,17 @@ const S = {
         `,
 }
 
+
+
 export const Schedule = ({ agenda }) => {
+    const dateTime = new Date();
+    console.log(dateTime);
+    console.log(agenda);
     return (
         <>
             {
-                agenda.map((element) => {
+                agenda.filter(agenda => agenda.time < Date.parse(dateTime))
+                .map((element) => {
                     return(
                         <S.ScheduleElementContainer>
                             <S.Time>

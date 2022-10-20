@@ -50,7 +50,7 @@ const S = {
             overflow: hidden;
         `,
             ShadowWrapper: styled.div`
-                z-index: 1000;
+                flex: 1;
             `,
             ScheduleContainer: styled.div`
                 display: flex;
@@ -98,15 +98,9 @@ const S = {
 export const Info = () => {
 
     const messages = [
-        {
-            "message":"Ikke glem å drikk vann og få frisk luft",
-        },
-        {
-            "message":"I år skjer ikke alt foran datamaskinen, besøk multisalen og kafeen og prøv arkademaskiner, VR-briller, Nintento-switch og andre konsoller og spill vi kan tilby!"
-        },
-        {   
-            "message":"Nettet vårt er sponset av HomeNET, de sørger for en 10 Gbps linje til LANet!"
-        }
+        "Ikke glem å drikk vann og få frisk luft",
+        "I år skjer ikke alt foran datamaskinen, besøk multisalen og kafeen og prøv arkademaskiner, VR-briller, Nintento-switch og andre konsoller og spill vi kan tilby!",
+        "Nettet vårt er sponset av HomeNET, de sørger for en 10 Gbps linje til LANet!"
     ]
 
     const [ activeNr, setActiveNr ] = useState(0);
@@ -116,6 +110,23 @@ export const Info = () => {
     const [ agenda, setAgenda ] = useState([]);
     const [ minutes, setMinutes ] = useState(undefined);
     const [ hours, setHours ] = useState(undefined)
+
+    const getMessages = () => {
+        const arrayLength = messages.length;
+        const x = activeNr;
+        //console.log(arrayLength);
+        
+        if(x < arrayLength) {
+            setActiveNr(activeNr => activeNr + 1);
+            //console.log("+1 /// " + activeNr);
+        }
+        if(x > arrayLength) {
+            setActiveNr(0);
+            //console.log("=0 /// " + activeNr);
+        }
+    }
+
+    //console.log(activeNr);
 
     useEffect(() => {
         const inner = async () => {
@@ -127,33 +138,21 @@ export const Info = () => {
             setAgenda(agendaData);
             setLoading(false);
         }
-        const getMessages = () => {
-            const arrayLength = messages.length;
-
-            if(activeNr <= arrayLength) {
-                setActiveNr(0);
-            }
-            if(activeNr == arrayLength) {
-                setActiveNr(0);
-            }            
-        }
+        
         inner();
-        getMessages();
 
         const interval = setInterval(() => {
             inner();
-            getMessages();
         }, 1000);
         const longInterval = setInterval(() => {
             getMessages();
         }, 1000);
+
         return () => {
             clearInterval(interval);
-            
+            clearInterval(longInterval);
         };
     }, []);
-
-
 
     return (
         <>
@@ -182,7 +181,7 @@ export const Info = () => {
                                         Timeplan for arrangementet!
                                     </S.Title>
                                     <Schedule agenda={agenda}>
-                                        
+                                        {console.log(agenda)}
                                     </Schedule>
                                 </S.ScheduleContainer>
                             </S.ColumnContainer>
@@ -197,7 +196,6 @@ export const Info = () => {
                                         Beskjeder fra PhoenixLAN
                                     </S.Title>
                                     <S.Text>
-                                        {console.log(activeNr)}
                                     </S.Text>
                                 </S.SecondarySideContainer>
                             </S.ColumnContainer>
