@@ -3,16 +3,13 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Routes
 } from "react-router-dom";
 import { Info } from "./pages/info";
 
 export default function App() {
   return (
-    <Router>
-        <Route path="/">
           <Info />
-        </Route>
-    </Router>
   );
 }
