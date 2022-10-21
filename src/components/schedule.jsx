@@ -82,7 +82,7 @@ export const Schedule = ({ agenda }) => {
     return (
         <>
             {
-                agenda.filter(agenda => agenda.time < Date.parse(dateTime))
+                agenda.filter(agenda => new Date(agenda.time*1000) > dateTime)
                 .map((element) => {
                     return(
                         <S.ScheduleElementContainer>
