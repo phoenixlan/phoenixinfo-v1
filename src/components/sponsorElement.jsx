@@ -18,7 +18,7 @@ export const SponsorElement = (data) => {
     return (
         <>
             <S.SponsorContainer>
-                <S.Image src={sponsorLogo} />
+                <S.Image src={sponsorLogo} alt={data.alt}/>
             </S.SponsorContainer>
         </>
     )

@@ -9,12 +9,22 @@ import { useState } from "react";
 
 
 const S = {
-    RootContainer: styled.div`
-        display: flex;
+    LoadingContainer: styled.div`
+        display: ${props => props.loading ? "flex" : "none"};
         font-family: "Segoe UI";
         flex-flow: column;
         margin: 1.5em;
         height: calc(100vh - 3em);
+    `,
+
+
+    DefaultContainer: styled.div`
+        display: ${props => props.loading ? "none" : "flex"};
+        font-family: "Segoe UI";
+        flex-flow: column;
+        margin: 1.5em;
+        height: calc(100vh - 3em);
+        user-select: none;
     `,
         HeaderContainer: styled.div`
             display: flex;
@@ -60,6 +70,12 @@ const S = {
                 display: flex;
                 flex: 3;
             `,
+                MapContainer: styled.div`
+                    width: 100%;
+                `,
+                    Map: styled.img`
+                        width: 100%;
+                    `,
             SecondarySideContainer: styled.div`
                 display: flex;
                 flex-flow: column;
@@ -100,7 +116,7 @@ export const Info = () => {
     const messages = [
         "Ikke glem å drikk vann og få frisk luft",
         "I år skjer ikke alt foran datamaskinen, besøk multisalen og kafeen og prøv arkademaskiner, VR-briller, Nintento-switch og andre konsoller og spill vi kan tilby!",
-        "Nettet vårt er sponset av HomeNET, de sørger for en 10 Gbps linje til LANet!"
+        "Nettet vårt er sponset av HomeNET, de sørger for en 10 Gbps linje til LANet! Besøk oss i Tech om du er interessert i nettverket vårt!"
     ]
 
     const [ activeNr, setActiveNr ] = useState(0);
@@ -108,6 +124,7 @@ export const Info = () => {
 
     const [ loading, setLoading ] = useState(true);
     const [ agenda, setAgenda ] = useState([]);
+    const [ agendaError, setAgendaError ] = useState(false);
     const [ minutes, setMinutes ] = useState(undefined);
     const [ hours, setHours ] = useState(undefined)
 
@@ -129,17 +146,45 @@ export const Info = () => {
     //console.log(activeNr);
 
     useEffect(() => {
-        const inner = async () => {
+        const initialise = async () => {
             setLoading(true);
-            const agendaData = await Agenda.getAgenda();
+
+            try {
+                const agendaData = await Agenda.getAgenda();
+                if(agendaData) {
+                    setAgenda(agendaData);
+                }
+            } catch(e) {
+                console.error("An error occured while attempting to fetch data from agendadata from API.");
+                console.error("Response: " + e);
+            }
+
             const dateTime = new Date();
             setHours(String(dateTime.getHours()).padStart(2, '0'));
             setMinutes(String(dateTime.getMinutes()).padStart(2, '0'));
-            setAgenda(agendaData);
             setLoading(false);
         }
+        const inner = async () => {
+            
+            const dateTime = new Date();
+            setHours(String(dateTime.getHours()).padStart(2, '0'));
+            setMinutes(String(dateTime.getMinutes()).padStart(2, '0'));
+
+            try {
+                const agendaData = await Agenda.getAgenda();
+
+                if(agendaData) {
+                    setAgenda(agendaData);
+                    setAgendaError(false);
+                }
+            } catch(e) {
+                console.error("An error occured while attempting to fetch data from agendadata from API.");
+                console.error("Response: " + e);
+                setAgendaError(true);
+            }
+        }
         
-        inner();
+        initialise();
 
         const interval = setInterval(() => {
             inner();
@@ -156,7 +201,16 @@ export const Info = () => {
 
     return (
         <>
-            <S.RootContainer>
+            { /* Loading container */}
+            <S.LoadingContainer loading={loading}>
+                123123
+            </S.LoadingContainer>
+
+            { /* Error container */}
+            
+
+            { /* Normal condition container */}
+            <S.DefaultContainer loading={loading}>
                 <S.HeaderContainer>
                     <S.RowContainer>
                         <S.LogoContainer>
@@ -177,19 +231,21 @@ export const Info = () => {
                         <S.RowContainer>
                             <S.ColumnContainer flex="3">
                                 <S.ScheduleContainer>
+                                    {
+                                    /*
                                     <S.Title>
                                         Timeplan for arrangementet!
                                     </S.Title>
-                                    <Schedule agenda={agenda}>
-                                        {console.log(agenda)}
-                                    </Schedule>
+                                    */
+                                    }
+                                    <Schedule agenda={agenda} error={agendaError} />
                                 </S.ScheduleContainer>
                             </S.ColumnContainer>
                             <S.ColumnContainer flex="2">
                                 <S.PrimarySideContainer> { /* Place image/posters here */}
-                                    <S.Title>
-                                        Kart
-                                    </S.Title>
+                                    <S.MapContainer>
+                                        <S.Map src="/map.png" />
+                                    </S.MapContainer>
                                 </S.PrimarySideContainer>
                                 <S.SecondarySideContainer> { /* Place pure text here */}
                                     <S.Title>
@@ -208,21 +264,21 @@ export const Info = () => {
                         <S.SponsorContainer>
                             <S.RowContainer>
                                 <S.Title>
-                                    Våre sponsorer
+                                    
                                 </S.Title>
                             </S.RowContainer>
 
                             <S.RowContainer>
                                 <S.SponsorElements>
-                                    <SponsorElement value="homenet" />
-                                    <SponsorElement value="askerkommune" />
-                                    <SponsorElement value="bleikervgs" />
+                                    <SponsorElement value="homenet" alt="Sponsor HomeNET" />
+                                    <SponsorElement value="askerkommune" alt="Sponsor Asker Kommune" />
+                                    <SponsorElement value="bleikervgs" alt="Sponsor Bleiger Videregående Skole" />
                                 </S.SponsorElements>
                             </S.RowContainer>
                         </S.SponsorContainer>
                     </S.RowContainer>
                 </S.BottomContainer>
-            </S.RootContainer>
+            </S.DefaultContainer>
         </>
     )
 }
