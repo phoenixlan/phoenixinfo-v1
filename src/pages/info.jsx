@@ -35,9 +35,10 @@ const S = {
                 flex: 1;
             `,
                 Logo: styled.div`
+                    margin-bottom: 0.5vw;
                 `,
                     LogoElement: styled.img`
-                        width: 8em;
+                        width: 6vw;
                     `,
             ClockContainer: styled.div`
                 flex: 0;
@@ -46,7 +47,7 @@ const S = {
                 Clock: styled.div`
                     display: flex;
                     flex-flow: row;
-                    font-size: 3em;
+                    font-size: 2.75vw;
                     font-weight: 400;
                     letter-spacing: 0.2em;
                 `,
@@ -105,6 +106,7 @@ const S = {
             gap: 6em;
         `,
         Title: styled.h3`
+            font-size: 1.25vw;
         `,
         Text: styled.span`
             letter-spacing: .1em;
@@ -203,7 +205,7 @@ export const Info = () => {
         <>
             { /* Loading container */}
             <S.LoadingContainer loading={loading}>
-                123123
+                Vennligst vent ...
             </S.LoadingContainer>
 
             { /* Error container */}
@@ -231,13 +233,6 @@ export const Info = () => {
                         <S.RowContainer>
                             <S.ColumnContainer flex="3">
                                 <S.ScheduleContainer>
-                                    {
-                                    /*
-                                    <S.Title>
-                                        Timeplan for arrangementet!
-                                    </S.Title>
-                                    */
-                                    }
                                     <Schedule agenda={agenda} error={agendaError} />
                                 </S.ScheduleContainer>
                             </S.ColumnContainer>
@@ -264,7 +259,7 @@ export const Info = () => {
                         <S.SponsorContainer>
                             <S.RowContainer>
                                 <S.Title>
-                                    
+                                    Sponsorer
                                 </S.Title>
                             </S.RowContainer>
 

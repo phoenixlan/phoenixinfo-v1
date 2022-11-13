@@ -4,10 +4,10 @@ import styled from "styled-components";
 const S = {
     SponsorContainer: styled.div`
         display: flex;
-        margin-right: 8em;
+        margin-right: 5vw;
     `,
     Image: styled.img`
-        max-height: 4em;
+        max-height: 3.2vw;
     `
 }
 
