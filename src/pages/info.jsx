@@ -11,7 +11,7 @@ import { useState } from "react";
 const S = {
     RootContainer: styled.div`
         display: flex;
-        font-family: "Segoe UI";
+        font-family: "Roboto";
         flex-flow: column;
         margin: 1.5em;
         height: calc(100vh - 3em);
@@ -143,7 +143,7 @@ export const Info = () => {
 
         const interval = setInterval(() => {
             inner();
-        }, 1000);
+        }, 30000);
         const longInterval = setInterval(() => {
             getMessages();
         }, 1000);
