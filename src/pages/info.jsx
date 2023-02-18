@@ -17,6 +17,10 @@ const S = {
         height: calc(100vh - 3em);
     `,
 
+    LoadingContainer: styled.div`
+        display: ${props => props.loading ? "flex" : "none"};
+    `,
+
 
     DefaultContainer: styled.div`
         display: ${props => props.loading ? "none" : "flex"};
@@ -122,13 +126,13 @@ export const Info = () => {
     ]
 
     const [ activeNr, setActiveNr ] = useState(0);
-    const [ activeMessage, setActiveMessage] = useState(undefined);
+    //const [ activeMessage, setActiveMessage] = useState(undefined);
 
     const [ loading, setLoading ] = useState(true);
     const [ agenda, setAgenda ] = useState([]);
     const [ agendaError, setAgendaError ] = useState(false);
-    const [ minutes, setMinutes ] = useState(undefined);
-    const [ hours, setHours ] = useState(undefined)
+    const [ minutes, setMinutes ] = useState(null);
+    const [ hours, setHours ] = useState(null);
 
     const getMessages = () => {
         const arrayLength = messages.length;
