@@ -16,7 +16,7 @@ const S = {
         flex-flow: column;
         color: #a455df;
         font-size: 1vw;
-        min-width: 3.5em;
+        min-width: 4.5em;
         font-weight: 500;
         letter-spacing: .1em;
         flex: 0;

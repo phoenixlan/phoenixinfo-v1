@@ -24,7 +24,7 @@ const S = {
 
     DefaultContainer: styled.div`
         display: ${props => props.loading ? "none" : "flex"};
-        font-family: "Segoe UI";
+        font-family: 'Roboto', sans-serif;
         flex-flow: column;
         margin: 1.5em;
         height: calc(100vh - 3em);
