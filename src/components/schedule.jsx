@@ -9,21 +9,21 @@ const S = {
 
     ScheduleElementContainer: styled.div`
         display: flex;
-        gap: 2em;
+        gap: 2.5vw;
     `,
     Time: styled.div`
+        position: relative;
         display: flex;
         flex-flow: column;
         color: #a455df;
-        font-size: 1vw;
-        min-width: 4.5em;
+        font-size: 1.4vw;
+        min-width: 4vw;
         font-weight: 500;
-        letter-spacing: .1em;
+        letter-spacing: .1vw;
         flex: 0;
-        margin-top: .1em;
     `,
         Day: styled.span`
-            font-size: 0.65em;
+            font-size: .8vw;
         `,
     LineElement: styled.div`
         display: flex;
@@ -33,22 +33,23 @@ const S = {
     `,
         TopLine: styled.div`
             position: relative;
-            left: 6px;
-            width: 4px;
-            height: 1em;
+            left: .375vw;
+            width: .25vw;
+            height: 1.3vw;
             background-color: #a455df;
         `,
-        Square: styled.div`
+        Square: styled.span`
             position: relative;
-            width: 1em;
-            height: 1em;
+            width: 1vw;
+            height: 1vw;
             background-color: #a455df;
             transform: rotate(45deg);
         `,
         BottomLine: styled.div`
             position: relative;
-            left: 6px;
-            width: 4px;
+            left: .375vw;
+            width: .25vw;
+            min-height: 1vw;
             height: auto;
             flex: 1;
             background-color: #a455df;
@@ -56,7 +57,7 @@ const S = {
 
     ErrorContainer: styled.div`
         display: flex;
-        gap: 2em;
+        gap: 2.5em;
         align-items: stretch;
         width: 100%!important;
     `,
@@ -102,10 +103,12 @@ const S = {
             `,
 
     ElementInformation: styled.div`
+        position: relative;
+        top: .95vw;
         display: flex;
         flex-flow: column;
-        margin-bottom: 1em;
-        flex: 1 100em;
+        margin-bottom: 1.25vw;
+        flex: 1 100vw;
         
         letter-spacing: .05em;
     `,
@@ -154,8 +157,8 @@ export const Schedule = ({ agenda, error }) => {
                     return(
                         <S.ScheduleElementContainer>
                             <S.Time>
-                                <S.Day>{new Date(element.time * 1000).toLocaleString('default', {weekday: 'short'})}</S.Day>
-                                {new Date(element.time * 1000).toLocaleString('default', {hour: '2-digit', minute: '2-digit'})}
+                                <S.Day>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
+                                {new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}
                             </S.Time>
                             <S.LineElement>
                                 <S.TopLine />

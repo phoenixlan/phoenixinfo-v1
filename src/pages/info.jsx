@@ -7,14 +7,13 @@ import { Agenda } from "@phoenixlan/phoenix.js";
 import { useEffect } from "react";
 import { useState } from "react";
 
-
 const S = {
     RootContainer: styled.div`
         display: flex;
-        font-family: "Roboto";
+        font-family: "Roboto", sans-serif;
         flex-flow: column;
-        margin: 1.5em;
-        height: calc(100vh - 3em);
+        margin: 1vw;
+        height: calc(100vh - 2vw);
     `,
 
     LoadingContainer: styled.div`
@@ -26,8 +25,8 @@ const S = {
         display: ${props => props.loading ? "none" : "flex"};
         font-family: 'Roboto', sans-serif;
         flex-flow: column;
-        margin: 1.5em;
-        height: calc(100vh - 3em);
+        margin: 1vw;
+        height: calc(100vh - 2vw);
         user-select: none;
     `,
         HeaderContainer: styled.div`
@@ -131,8 +130,7 @@ export const Info = () => {
     const [ loading, setLoading ] = useState(true);
     const [ agenda, setAgenda ] = useState([]);
     const [ agendaError, setAgendaError ] = useState(false);
-    const [ minutes, setMinutes ] = useState(null);
-    const [ hours, setHours ] = useState(null);
+    const [ clock, setClock ] = useState(null);
 
     const getMessages = () => {
         const arrayLength = messages.length;
@@ -149,33 +147,36 @@ export const Info = () => {
         }
     }
 
-    //console.log(activeNr);
-
     useEffect(() => {
         const initialise = async () => {
+            // Show loading container
             setLoading(true);
 
+            // Create clock
+            const dateTime = new Date();
+            setClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'})));
+
+            // Attempt to fetch agendadata from the API
             try {
                 const agendaData = await Agenda.getAgenda();
-                if(agendaData) {
+                if (agendaData) {
                     setAgenda(agendaData);
-                }
+                }    
             } catch(e) {
                 console.error("An error occured while attempting to fetch data from agendadata from API.");
                 console.error("Response: " + e);
             }
-
-            const dateTime = new Date();
-            setHours(String(dateTime.getHours()).padStart(2, '0'));
-            setMinutes(String(dateTime.getMinutes()).padStart(2, '0'));
+            
+            // Disable the loading container and show the page.
             setLoading(false);
         }
         const inner = async () => {
             
+            // Update clock
             const dateTime = new Date();
-            setHours(String(dateTime.getHours()).padStart(2, '0'));
-            setMinutes(String(dateTime.getMinutes()).padStart(2, '0'));
+            setClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'})));
 
+            // Attempt to fetch agendadata from the API
             try {
                 const agendaData = await Agenda.getAgenda();
 
@@ -190,8 +191,10 @@ export const Info = () => {
             }
         }
         
+        // Initialise the code
         initialise();
 
+        // Create intervals for updating the page
         const interval = setInterval(() => {
             inner();
         }, 30000);
@@ -226,7 +229,7 @@ export const Info = () => {
                         </S.LogoContainer>
                         <S.ClockContainer>
                             <S.Clock>
-                                {hours}:{minutes}
+                                {clock}
                             </S.Clock>
                         </S.ClockContainer>
                     </S.RowContainer>
@@ -269,9 +272,9 @@ export const Info = () => {
 
                             <S.RowContainer>
                                 <S.SponsorElements>
-                                    <SponsorElement value="homenet" alt="Sponsor HomeNET" />
-                                    <SponsorElement value="askerkommune" alt="Sponsor Asker Kommune" />
-                                    <SponsorElement value="bleikervgs" alt="Sponsor Bleiger Videregående Skole" />
+                                    <SponsorElement value="homenet" type="png" alt="Sponsor HomeNET" />
+                                    <SponsorElement value="askerkommune" type="svg" alt="Sponsor Asker Kommune" />
+                                    <SponsorElement value="bleikervgs" type="png" alt="Sponsor Bleiger Videregående Skole" />
                                 </S.SponsorElements>
                             </S.RowContainer>
                         </S.SponsorContainer>
