@@ -127,7 +127,7 @@ export const Info = () => {
     const [ activeNr, setActiveNr ] = useState(0);
     //const [ activeMessage, setActiveMessage] = useState(undefined);
 
-    const [ loading, setLoading ] = useState(true);
+    const [ loading, setLoading ] = useState(undefined);
     const [ agenda, setAgenda ] = useState([]);
     const [ agendaError, setAgendaError ] = useState(false);
     const [ clock, setClock ] = useState(null);

@@ -24,11 +24,18 @@ const S = {
     `,
         Day: styled.span`
             font-size: .8vw;
+            height: .8vw;
+        `,
+        Hour: styled.span`
+            color: ${props => props.deviating ? "#ff9900" : "inherit"};
+            font-size: ${props => props.small ? "1vw" : "1.4vw"};
+            text-decoration: ${props => props.linethrough ? "line-through" : "none"};
         `,
     LineElement: styled.div`
         display: flex;
         flex-flow: column;
         height: 100%;
+        width: 1vw!important;
         flex: 0;
     `,
         TopLine: styled.div`
@@ -57,7 +64,7 @@ const S = {
 
     ErrorContainer: styled.div`
         display: flex;
-        gap: 2.5em;
+        gap: 2.5vw;
         align-items: stretch;
         width: 100%!important;
     `,
@@ -80,7 +87,7 @@ const S = {
             display: flex;
             flex-flow: column;
             height: 100%;
-            width: 1em!important;
+            width: 1vw!important;
             flex: 0;
         `,
             ErrorTopLine: styled.div`
@@ -104,7 +111,6 @@ const S = {
 
     ElementInformation: styled.div`
         position: relative;
-        top: .95vw;
         display: flex;
         flex-flow: column;
         margin-bottom: 1.25vw;
@@ -119,6 +125,10 @@ const S = {
         `,
         Text: styled.span`
             font-size: 1vw;
+        `,
+        DeviatingInformation: styled.span`
+            font-size: 1vw;
+            color: #ff9900;
         `,
 }
 
@@ -152,24 +162,53 @@ export const Schedule = ({ agenda, error }) => {
             <ErrorContainer visible={error} />
             {
                 agenda
-                .filter(agenda => new Date(agenda.time * 1000) > (Date.now() - 5 * 60000))
+                .filter(agenda => agenda.deviating_time ? new Date(agenda.deviating_time * 1000) > (Date.now() - 5 * 60000) : new Date(agenda.time * 1000) > (Date.now() - 5 * 60000))
                 .map((element) => {
                     return(
-                        <S.ScheduleElementContainer>
+                        <S.ScheduleElementContainer key={element.uuid}>
                             <S.Time>
-                                <S.Day>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
-                                {new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}
-                            </S.Time>
+                                { // Agenda entry normal time
+                                    !element.deviating_time
+                                    ?
+                                        <>
+                                            <S.Day>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
+                                            <S.Hour>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
+                                        </>
+                                    : null
+                                }
+                                { // Agenda entry with deviating time
+                                    element.deviating_time
+                                    ?
+                                        <>
+                                            <S.Day>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
+                                            <S.Hour deviating>{new Date(element.deviating_time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
+                                            <S.Hour small linethrough>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
+                                        </>
+                                    : null
+                                }
+                                { // Agenda entry cancelled
+
+                                }
+                                </S.Time>
                             <S.LineElement>
                                 <S.TopLine />
                                 <S.Square />
                                 <S.BottomLine />
                             </S.LineElement>
                             <S.ElementInformation>
+                                <S.Day />
                                 <S.Title>{element.title}</S.Title>
                                 <S.Text>
                                     {element.description}
                                 </S.Text>
+                                {
+                                    element.deviating_information?
+                                    <S.DeviatingInformation>
+                                        {element.deviating_information}
+                                    </S.DeviatingInformation>
+                                    :null
+                                }
+                                
                             </S.ElementInformation>
                         </S.ScheduleElementContainer>
                     )
