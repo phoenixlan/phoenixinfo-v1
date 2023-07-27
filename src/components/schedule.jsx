@@ -1,5 +1,6 @@
 import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import React from "react";
 import styled from "styled-components";
 
@@ -23,6 +24,7 @@ const S = {
         flex: 0;
     `,
         Day: styled.span`
+            color: ${props => props.deviating ? "#ff9900" : "inherit"};
             font-size: .8vw;
             height: .8vw;
         `,
@@ -42,7 +44,7 @@ const S = {
             position: relative;
             left: .375vw;
             width: .25vw;
-            height: 1.3vw;
+            height: 1.15vw;
             background-color: #a455df;
         `,
         Square: styled.span`
@@ -52,6 +54,17 @@ const S = {
             background-color: #a455df;
             transform: rotate(45deg);
         `,
+            CancelledSquare: styled.span`
+                position: relative;
+                width: 1vw;
+                height: 1vw;
+                bottom: .25vw;
+                font-size: 1.25vw;
+                right: 0.125vw;
+                margin: auto;
+                color: #ff9900;
+                z-index: 100;
+            `,
         BottomLine: styled.div`
             position: relative;
             left: .375vw;
@@ -94,19 +107,21 @@ const S = {
                 position: relative;
                 left: 6px;
                 width: 4px;
-                height: 1em;
+                height: 0.275vw;
             `,
             ErrorSquare: styled.div`
+                display: flex;
                 position: relative;
                 color: #ff9900;
-                font-size: 24px;
-                right: 4px;
+                font-size: 1.25vw;
+                right: 0.1vw;
+                margin: 0 auto;
             `,
             ErrorBottomLine: styled.div`
                 position: relative;
                 left: 6px;
                 width: 4px;
-                height: 1em;
+                height: unset;
             `,
 
     ElementInformation: styled.div`
@@ -148,7 +163,7 @@ const ErrorContainer = ({ visible }) => {
                     </S.ErrorLineElement>
                     <S.ElementInformation>
                         <S.ErrorTitle>Feil med skjermen</S.ErrorTitle>
-                        <S.ErrorDescription>Vi får ikke til å hente oppdateringer for infoskjermen, informasjonen som vises er kanskje utdatert.</S.ErrorDescription>
+                        <S.ErrorDescription>Vi får ikke til å hente oppdateringer for infoskjermen.<br />Informasjonen som vises er kanskje utdatert.</S.ErrorDescription>
                     </S.ElementInformation>
                 </S.ErrorContainer>
             </>
@@ -167,32 +182,53 @@ export const Schedule = ({ agenda, error }) => {
                     return(
                         <S.ScheduleElementContainer key={element.uuid}>
                             <S.Time>
-                                { // Agenda entry normal time
-                                    !element.deviating_time
-                                    ?
-                                        <>
-                                            <S.Day>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
-                                            <S.Hour>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
-                                        </>
+                                { // Agenda entry normal time:
+                                    !element.state_cancelled ?
+                                        !element.deviating_time ?
+                                            !element.state_deviating_time_unknown ?
+                                            <>
+                                                <S.Day>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
+                                                <S.Hour>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
+                                            </>
+                                            : null
+                                        : null
                                     : null
                                 }
-                                { // Agenda entry with deviating time
-                                    element.deviating_time
-                                    ?
-                                        <>
-                                            <S.Day>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
-                                            <S.Hour deviating>{new Date(element.deviating_time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
-                                            <S.Hour small linethrough>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
-                                        </>
+                                { // Agenda entry with deviating time, or undetermined deviating time:
+                                    !element.state_cancelled ?
+                                        element.state_deviating_time_unknown ?
+                                            <>
+                                                <S.Day>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
+                                                <S.Hour deviating>N/A</S.Hour>
+                                                <S.Hour small linethrough>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
+                                            </>
+                                        : element.deviating_time ?
+                                            <>
+                                                <S.Day>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
+                                                <S.Hour deviating>{new Date(element.deviating_time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
+                                                <S.Hour small linethrough>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
+                                            </>
+                                        : null
                                     : null
                                 }
-                                { // Agenda entry cancelled
-
+                                { // Cancelled agenda entry:
+                                    element.state_cancelled ?
+                                        <>
+                                            <S.Day deviating>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
+                                            <S.Hour deviating linethrough>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
+                                        </>
+                                    : null
                                 }
                                 </S.Time>
                             <S.LineElement>
                                 <S.TopLine />
-                                <S.Square />
+                                {
+                                    element.state_cancelled ?
+                                    <S.CancelledSquare>
+                                        <FontAwesomeIcon icon={faCircleExclamation} />
+                                    </S.CancelledSquare>
+                                    : <S.Square />
+                                }
                                 <S.BottomLine />
                             </S.LineElement>
                             <S.ElementInformation>

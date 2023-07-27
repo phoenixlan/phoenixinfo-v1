@@ -54,7 +54,8 @@ const S = {
                     font-weight: 400;
                     letter-spacing: 0.2em;
                 `,
-                    ClockElement: styled.span`
+                    ClockColon: styled.span`
+                        opacity: ${props => props.visible ? "1" : "0"};
                     `,
 
 
@@ -130,7 +131,11 @@ export const Info = () => {
     const [ loading, setLoading ] = useState(undefined);
     const [ agenda, setAgenda ] = useState([]);
     const [ agendaError, setAgendaError ] = useState(false);
-    const [ clock, setClock ] = useState(null);
+
+    // Clock
+    const [ hourClock, setHourClock ] = useState(undefined);
+    const [ minuteClock, setMinuteClock ] = useState(undefined);
+    const [ clockColonVisibility, setClockColonVisibility ] = useState(true);
 
     const getMessages = () => {
         const arrayLength = messages.length;
@@ -154,7 +159,9 @@ export const Info = () => {
 
             // Create clock
             const dateTime = new Date();
-            setClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'})));
+            setHourClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'}).slice(0, 2)));
+            setMinuteClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'}).slice(3)));
+            setClockColonVisibility(true);
 
             // Attempt to fetch agendadata from the API
             try {
@@ -173,8 +180,7 @@ export const Info = () => {
         const inner = async () => {
             
             // Update clock
-            const dateTime = new Date();
-            setClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'})));
+            
 
             // Attempt to fetch agendadata from the API
             try {
@@ -190,21 +196,27 @@ export const Info = () => {
                 setAgendaError(true);
             }
         }
+
+        const colonShift = () => {
+            const dateTime = new Date();
+            setHourClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', timeZone: 'Europe/Oslo'})));
+            setMinuteClock(String(dateTime.toLocaleTimeString('no', {minute: '2-digit', timeZone: 'Europe/Oslo'})));
+            setClockColonVisibility(clockColonVisibility => !clockColonVisibility);
+        }
         
         // Initialise the code
         initialise();
 
         // Create intervals for updating the page
+        const halfSecondInterval = setInterval(() => {
+            colonShift();
+        }, 1000);
         const interval = setInterval(() => {
             inner();
         }, 30000);
-        const longInterval = setInterval(() => {
-            getMessages();
-        }, 1000);
 
         return () => {
-            clearInterval(interval);
-            clearInterval(longInterval);
+            clearInterval(halfSecondInterval, interval);
         };
     }, []);
 
@@ -229,7 +241,7 @@ export const Info = () => {
                         </S.LogoContainer>
                         <S.ClockContainer>
                             <S.Clock>
-                                {clock}
+                                {hourClock}<S.ClockColon visible={clockColonVisibility}>:</S.ClockColon>{minuteClock}
                             </S.Clock>
                         </S.ClockContainer>
                     </S.RowContainer>
