@@ -12,7 +12,7 @@ import { Info } from "./pages/info";
 
 import * as Sentry from "@sentry/react";
 
-export const BASE_URL = process.env.REACT_APP_API_URL??"http://api.dev.phoenixlan.no:3000";
+export const BASE_URL = process.env.REACT_APP_API_URL??"http://api.test.phoenixlan.no:3000";
 
 const initialize = () => {
   init(BASE_URL); //init(process.env.BASE_URL);

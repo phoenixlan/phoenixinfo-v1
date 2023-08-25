@@ -50,9 +50,10 @@ const S = {
                 Clock: styled.div`
                     display: flex;
                     flex-flow: row;
+                    font-family: monospace;
                     font-size: 2.75vw;
                     font-weight: 400;
-                    letter-spacing: 0.2em;
+                    letter-spacing: 0.1em;
                 `,
                     ClockColon: styled.span`
                         opacity: ${props => props.visible ? "1" : "0"};
@@ -199,8 +200,8 @@ export const Info = () => {
 
         const colonShift = () => {
             const dateTime = new Date();
-            setHourClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', timeZone: 'Europe/Oslo'})));
-            setMinuteClock(String(dateTime.toLocaleTimeString('no', {minute: '2-digit', timeZone: 'Europe/Oslo'})));
+            setHourClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'}).slice(0, 2)));
+            setMinuteClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'}).slice(3)));
             setClockColonVisibility(clockColonVisibility => !clockColonVisibility);
         }
         
