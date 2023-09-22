@@ -34,7 +34,6 @@ const S = {
     LineElement: styled.div`
         display: flex;
         flex-flow: column;
-        height: 100%;
         width: 3vw!important;
         flex: 1 3vw;
     `,
