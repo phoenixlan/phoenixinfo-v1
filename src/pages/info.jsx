@@ -120,13 +120,12 @@ const S = {
 
 export const Info = () => {
 
-    const messages = [
+    /*const messages = [
         "Ikke glem å drikk vann og få frisk luft",
         "I år skjer ikke alt foran datamaskinen, besøk multisalen og kafeen og prøv arkademaskiner, VR-briller, Nintento-switch og andre konsoller og spill vi kan tilby!",
         "Nettet vårt er sponset av HomeNET, de sørger for en 10 Gbps linje til LANet! Besøk oss i Tech om du er interessert i nettverket vårt!"
-    ]
+    ]*/
 
-    const [ activeNr, setActiveNr ] = useState(0);
     //const [ activeMessage, setActiveMessage] = useState(undefined);
 
     const [ loading, setLoading ] = useState(undefined);
