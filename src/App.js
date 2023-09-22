@@ -1,11 +1,4 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Routes
-} from "react-router-dom";
 
 import { init } from '@phoenixlan/phoenix.js';
 import { Info } from "./pages/info";

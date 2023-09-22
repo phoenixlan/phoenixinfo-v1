@@ -138,21 +138,6 @@ export const Info = () => {
     const [ minuteClock, setMinuteClock ] = useState(undefined);
     const [ clockColonVisibility, setClockColonVisibility ] = useState(true);
 
-    const getMessages = () => {
-        const arrayLength = messages.length;
-        const x = activeNr;
-        //console.log(arrayLength);
-        
-        if(x < arrayLength) {
-            setActiveNr(activeNr => activeNr + 1);
-            //console.log("+1 /// " + activeNr);
-        }
-        if(x > arrayLength) {
-            setActiveNr(0);
-            //console.log("=0 /// " + activeNr);
-        }
-    }
-
     useEffect(() => {
         const initialise = async () => {
             // Show loading container
