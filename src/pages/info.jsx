@@ -10,7 +10,6 @@ import { useState } from "react";
 const S = {
     RootContainer: styled.div`
         display: flex;
-        font-family: "Roboto", sans-serif;
         flex-flow: column;
         margin: 1vw;
         height: calc(100vh - 2vw);
@@ -23,7 +22,6 @@ const S = {
 
     DefaultContainer: styled.div`
         display: ${props => props.loading ? "none" : "flex"};
-        font-family: 'Roboto', sans-serif;
         flex-flow: column;
         margin: 1vw;
         height: calc(100vh - 2vw);
@@ -211,10 +209,10 @@ export const Info = () => {
         // Create intervals for updating the page
         const halfSecondInterval = setInterval(() => {
             colonShift();
-        }, 1000);
+        }, 500);
         const interval = setInterval(() => {
             inner();
-        }, 30000);
+        }, 500);
 
         return () => {
             clearInterval(halfSecondInterval, interval);
