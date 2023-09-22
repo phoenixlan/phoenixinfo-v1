@@ -192,8 +192,8 @@ export const Schedule = ({ agenda, error }) => {
                                             !element.deviating_time ?
                                                 !element.deviating_time_unknown ?
                                                 <>
-                                                    <S.Day>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
-                                                    <S.Hour>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
+                                                    <S.Day>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short', timeZone: 'Europe/Oslo'})}</S.Day>
+                                                    <S.Hour>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Oslo'})}</S.Hour>
                                                 </>
                                                 : null
                                             : null
@@ -203,15 +203,15 @@ export const Schedule = ({ agenda, error }) => {
                                         !element.cancelled ?
                                             element.deviating_time_unknown ?
                                                 <>
-                                                    <S.Day deviating>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
+                                                    <S.Day deviating>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short', timeZone: 'Europe/Oslo'})}</S.Day>
                                                     <S.Hour deviating>TBD</S.Hour>
-                                                    <S.Hour small linethrough deviating>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
+                                                    <S.Hour small linethrough deviating>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Oslo'})}</S.Hour>
                                                 </>
                                             : element.deviating_time ?
                                                 <>
-                                                    <S.Day deviating>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
-                                                    <S.Hour deviating>{new Date(element.deviating_time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
-                                                    <S.Hour small linethrough deviating>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
+                                                    <S.Day deviating>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short', timeZone: 'Europe/Oslo'})}</S.Day>
+                                                    <S.Hour deviating>{new Date(element.deviating_time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Oslo'})}</S.Hour>
+                                                    <S.Hour small linethrough deviating>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Oslo'})}</S.Hour>
                                                 </>
                                             : null
                                         : null
@@ -219,8 +219,8 @@ export const Schedule = ({ agenda, error }) => {
                                     { // Cancelled agenda entry:
                                         element.cancelled ?
                                             <>
-                                                <S.Day deviating>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short'})}</S.Day>
-                                                <S.Hour deviating linethrough>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Amsterdam'})}</S.Hour>
+                                                <S.Day deviating>{new Date(element.time * 1000).toLocaleString('no', {weekday: 'short', timeZone: 'Europe/Oslo'})}</S.Day>
+                                                <S.Hour deviating linethrough>{new Date(element.time * 1000).toLocaleString('no', {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/Oslo'})}</S.Hour>
                                             </>
                                         : null
                                     }
