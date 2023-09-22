@@ -209,10 +209,10 @@ export const Info = () => {
         // Create intervals for updating the page
         const halfSecondInterval = setInterval(() => {
             colonShift();
-        }, 500);
+        }, 1000);
         const interval = setInterval(() => {
             inner();
-        }, 500);
+        }, 30000);
 
         return () => {
             clearInterval(halfSecondInterval, interval);
