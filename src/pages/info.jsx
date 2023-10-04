@@ -7,6 +7,15 @@ import { Agenda } from "@phoenixlan/phoenix.js";
 import { useEffect } from "react";
 import { useState } from "react";
 
+import { keyframes } from 'styled-components';
+const blinking = keyframes`
+    100% {
+        visibility: visible;
+    }
+    0% {
+        visibility: hidden;
+    }
+`
 const S = {
     RootContainer: styled.div`
         display: flex;
@@ -56,7 +65,7 @@ const S = {
                     letter-spacing: 0.1em;
                 `,
                     ClockColon: styled.span`
-                        opacity: ${props => props.visible ? "1" : "0"};
+                        animation: ${blinking} 2s steps(2) infinite;
                     `,
 
 
@@ -135,7 +144,6 @@ export const Info = () => {
     // Clock
     const [ hourClock, setHourClock ] = useState(undefined);
     const [ minuteClock, setMinuteClock ] = useState(undefined);
-    const [ clockColonVisibility, setClockColonVisibility ] = useState(true);
 
     useEffect(() => {
         const initialise = async () => {
@@ -146,7 +154,6 @@ export const Info = () => {
             const dateTime = new Date();
             setHourClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'}).slice(0, 2)));
             setMinuteClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'}).slice(3)));
-            setClockColonVisibility(true);
 
             // Attempt to fetch agendadata from the API
             try {
@@ -186,7 +193,6 @@ export const Info = () => {
             const dateTime = new Date();
             setHourClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'}).slice(0, 2)));
             setMinuteClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'}).slice(3)));
-            setClockColonVisibility(clockColonVisibility => !clockColonVisibility);
         }
         
         // Initialise the code
@@ -226,7 +232,7 @@ export const Info = () => {
                         </S.LogoContainer>
                         <S.ClockContainer>
                             <S.Clock>
-                                {hourClock}<S.ClockColon visible={clockColonVisibility}>:</S.ClockColon>{minuteClock}
+                                {hourClock}<S.ClockColon>:</S.ClockColon>{minuteClock}
                             </S.Clock>
                         </S.ClockContainer>
                     </S.RowContainer>
