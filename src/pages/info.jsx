@@ -65,7 +65,7 @@ const S = {
                     letter-spacing: 0.1em;
                 `,
                     ClockColon: styled.span`
-                        animation: ${blinking} 2s steps(2) infinite;
+                        animation: ${blinking} 1.5s steps(2) infinite;
                     `,
 
 
@@ -170,10 +170,6 @@ export const Info = () => {
             setLoading(false);
         }
         const inner = async () => {
-            
-            // Update clock
-            
-
             // Attempt to fetch agendadata from the API
             try {
                 const agendaData = await Agenda.getAgenda();
@@ -189,7 +185,7 @@ export const Info = () => {
             }
         }
 
-        const colonShift = () => {
+        const updateClockDisplay = () => {
             const dateTime = new Date();
             setHourClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'}).slice(0, 2)));
             setMinuteClock(String(dateTime.toLocaleTimeString('no', {hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo'}).slice(3)));
@@ -199,15 +195,15 @@ export const Info = () => {
         initialise();
 
         // Create intervals for updating the page
-        const halfSecondInterval = setInterval(() => {
-            colonShift();
+        const clockInterval = setInterval(() => {
+            updateClockDisplay();
         }, 1000);
-        const interval = setInterval(() => {
+        const agendaInterval = setInterval(() => {
             inner();
-        }, 30000);
+        }, 30*1000);
 
         return () => {
-            clearInterval(halfSecondInterval, interval);
+            clearInterval(clockInterval, agendaInterval);
         };
     }, []);
 
