@@ -65,7 +65,7 @@ const S = {
                     letter-spacing: 0.1em;
                 `,
                     ClockColon: styled.span`
-                        animation: ${blinking} 1.5s steps(2) infinite;
+                        animation: ${blinking} 2s steps(2) infinite;
                     `,
 
 
