@@ -139,7 +139,7 @@ const S = {
         Title: styled.span`
             display: flex;
             font-size: 1.4vw;
-            font-weight: 500;
+            font-weight: 700;
         `,
         Text: styled.span`
             font-size: 1vw;

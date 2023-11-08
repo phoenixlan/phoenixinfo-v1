@@ -19,7 +19,6 @@ const blinking = keyframes`
 const S = {
     RootContainer: styled.div`
         display: flex;
-        font-family: "Roboto", sans-serif;
         flex-flow: column;
         margin: 1vw;
         height: calc(100vh - 2vw);
@@ -32,7 +31,6 @@ const S = {
 
     DefaultContainer: styled.div`
         display: ${props => props.loading ? "none" : "flex"};
-        font-family: 'Roboto', sans-serif;
         flex-flow: column;
         margin: 1vw;
         height: calc(100vh - 2vw);
