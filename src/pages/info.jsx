@@ -247,11 +247,8 @@ export const Info = () => {
                                     </S.MapContainer>
                                 </S.PrimarySideContainer>
                                 <S.SecondarySideContainer> { /* Place pure text here */}
-                                    <S.Title>
-                                        Beskjeder fra PhoenixLAN
-                                    </S.Title>
-                                    <S.Text>
-                                    </S.Text>
+                                    <S.Title />
+                                    <S.Text />
                                 </S.SecondarySideContainer>
                             </S.ColumnContainer>
                         </S.RowContainer>
@@ -272,6 +269,7 @@ export const Info = () => {
                                     <SponsorElement value="globalconnect" type="png" alt="Sponsor GLobalCOnnect" />
                                     <SponsorElement value="askerkommune" type="svg" alt="Sponsor Asker Kommune" />
                                     <SponsorElement value="bleikervgs" type="png" alt="Sponsor Bleiger Videregående Skole" />
+                                    <SponsorElement value="neopizza" type="svg" alt="Sponsor Neo Pizza" color="white" />
                                 </S.SponsorElements>
                             </S.RowContainer>
                         </S.SponsorContainer>
