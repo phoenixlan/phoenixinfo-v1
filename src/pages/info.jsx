@@ -268,7 +268,6 @@ export const Info = () => {
 
                             <S.RowContainer>
                                 <S.SponsorElements>
-                                    <SponsorElement value="globalconnect" type="png" alt="Sponsor GLobalCOnnect" />
                                     <SponsorElement value="askerkommune" type="svg" alt="Sponsor Asker Kommune" />
                                     <SponsorElement value="bleikervgs" type="png" alt="Sponsor Bleiger Videregående Skole" />
                                     <SponsorElement value="neopizza" type="svg" alt="Sponsor Neo Pizza" color="white" />
