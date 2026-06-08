@@ -270,7 +270,6 @@ export const Info = () => {
                                 <S.SponsorElements>
                                     <SponsorElement value="askerkommune" type="svg" alt="Sponsor Asker Kommune" />
                                     <SponsorElement value="bleikervgs" type="png" alt="Sponsor Bleiger Videregående Skole" />
-                                    <SponsorElement value="neopizza" type="svg" alt="Sponsor Neo Pizza" color="white" />
                                 </S.SponsorElements>
                             </S.RowContainer>
                         </S.SponsorContainer>
